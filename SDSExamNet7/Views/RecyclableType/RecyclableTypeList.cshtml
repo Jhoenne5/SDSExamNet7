@@ -1,0 +1,36 @@
+﻿@model List<SDSExamNet7.Models.Entities.RecyclableType>;
+
+<h2>Recyclable Type List</h2>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Rate</th>
+                <th>MinKg</th>
+                <th>MaxKg</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var recyclableType in Model)
+            {
+                <tr>
+                    <td>@recyclableType.Id </td>
+                    <td>@recyclableType.Type</td>
+                    <td>@recyclableType.Rate</td>
+                    <td>@recyclableType.MinKg</td>
+                    <td>@recyclableType.MaxKg</td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="EditRecyclableType" 
+                        asp-controller="RecyclableType" 
+                        asp-route-id="@recyclableType.Id">Edit </a>
+  
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,62 @@
+﻿@model SDSExamNet7.Models.DTOS.AddRecyclableItemDTO
+
+<h2>Add Recyclable Item</h2>
+
+<form asp-action="AddRecyclableItem" method="post">
+    <div class="form-group">
+        <label asp-for="RecyclableItem.RecyclableTypeId">Recyclable Type</label>
+        <select asp-for="RecyclableItem.RecyclableTypeId" class="form-control" asp-items="@(new SelectList(Model.RecyclableTypes, "Id", "Type"))" id="recyclableType">
+            <option value="">Select Recyclable Type</option>
+        </select>
+        <span asp-validation-for="RecyclableItem.RecyclableTypeId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="RecyclableItem.Weight">Weight</label>
+        <input asp-for="RecyclableItem.Weight" class="form-control" id="weight" />
+        <span asp-validation-for="RecyclableItem.Weight" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="RecyclableItem.ItemDescription">Description</label>
+        <input asp-for="RecyclableItem.ItemDescription" class="form-control" />
+        <span asp-validation-for="RecyclableItem.ItemDescription" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="RecyclableItem.ComputedRate">Computed Rate</label>
+        <input asp-for="RecyclableItem.ComputedRate" class="form-control" id="computedRate" readonly />
+        <span asp-validation-for="RecyclableItem.ComputedRate" class="text-danger"></span>
+    </div>
+ 
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" onclick="clearForm()">Reset</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById('recyclableType').addEventListener('change', computeRate);
+        document.getElementById('weight').addEventListener('input', computeRate);
+
+        function computeRate() {
+            var selectedType = document.getElementById('recyclableType').value;
+            var weight = parseFloat(document.getElementById('weight').value) || 0;
+            var types = @Html.Raw(Json.Serialize(Model.RecyclableTypes));
+
+            var selectedTypeRate = 0;
+            for (var i = 0; i < types.length; i++) {
+                if (types[i].id == selectedType) {
+                    selectedTypeRate = types[i].rate;
+                    break;
+                }
+            }
+
+            var computedRate = selectedTypeRate * weight;
+            document.getElementById('computedRate').value = computedRate.toFixed(2);
+        }
+        function clearForm() {
+            document.querySelectorAll('input').forEach(input => {
+                input.value = '';
+            });
+        }
+    </script>
+}

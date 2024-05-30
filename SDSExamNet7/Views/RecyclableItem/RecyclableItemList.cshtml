@@ -1,0 +1,34 @@
+﻿@model IEnumerable<SDSExamNet7.Models.DTOS.RecyclableItemWithTypeDTO>
+
+<h2>Recyclable Item List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Type</th>
+            <th>Weight</th>
+            <th>Computed Rate</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var RecyclableItem in Model)
+        {
+            <tr>
+                <td>@RecyclableItem.Id</td>
+                <td>@RecyclableItem.Type</td>
+                <td>@RecyclableItem.Weight</td>
+                <td>@RecyclableItem.ComputedRate</td>
+                <td>@RecyclableItem.ItemDescription</td>
+                <td>
+                    <a class="btn btn-primary"
+                    asp-action="EditRecyclableItem"
+                       asp-controller="RecyclableItem"
+                       asp-route-id="@RecyclableItem.Id">Edit </a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
